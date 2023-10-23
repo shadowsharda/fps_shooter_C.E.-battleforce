@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://bullets/lmg_bullets/unsilenced_lmg_bullets/carpanter150_unsilenced_bullet/carpanter150_unsilenced_bullet.gd" type="Script" id=1]
+[ext_resource path="res://bullets/unsilenced_bullet_area/unsilenced_area.tscn" type="PackedScene" id=2]
+
+[sub_resource type="SphereShape" id=1]
+radius = 0.2
+
+[sub_resource type="CubeMesh" id=4]
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+albedo_color = Color( 0.5, 0.5, 0.05, 1 )
+
+[node name="carpanter150" type="Area" groups=["bullet"]]
+collision_layer = 4
+collision_mask = 59
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="CollisionShape"]
+wait_time = 20.0
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 0.05, 0, 0, 0, -2.18557e-09, -0.05, 0, 0.05, -2.18557e-09, 0, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = SubResource( 3 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 20.0
+
+[node name="unsilenced_area" parent="." instance=ExtResource( 2 )]
+
+[connection signal="body_entered" from="." to="." method="_on_carpanter150_unsilenced_bullet_body_entered"]

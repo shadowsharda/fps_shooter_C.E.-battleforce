@@ -1,0 +1,2 @@
+extends carpanter150_unsilenced_bullet
+

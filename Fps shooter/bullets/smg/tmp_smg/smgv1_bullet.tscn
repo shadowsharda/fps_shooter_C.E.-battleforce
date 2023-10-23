@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://enviroment_items/living_items/army_guy_blackmamba/purpule.material" type="Material" id=1]
+[ext_resource path="res://bullets/smg/tmp_smg/smgv1_bullet.gd" type="Script" id=2]
+
+[sub_resource type="SphereShape" id=1]
+radius = 0.2
+
+[sub_resource type="CubeMesh" id=2]
+material = ExtResource( 1 )
+size = Vector3( 0.1, 0.1, 0.1 )
+
+[node name="smgv1_bullet" type="Area" groups=["bullet"]]
+collision_layer = 4
+collision_mask = 59
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 20.0
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+
+[connection signal="body_entered" from="." to="." method="_on_smgv1_bullet_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://enemy/opponent_lmg_guy/opponent_lmg_man.gd" type="Script" id=1]
+[ext_resource path="res://enviroment_tscn/living_items/Army_guy_with_texture_and_all_animation/Army_guy_with_texture_and_all_animation.tscn" type="PackedScene" id=2]
+[ext_resource path="res://weapon tscn/projectile_wepon/lmg/unsilenced/opponent/opponent_carpainter150_unsilenced.tscn" type="PackedScene" id=3]
+
+[sub_resource type="CylinderShape" id=4]
+height = 3.0
+radius = 1.25
+
+[sub_resource type="SphereShape" id=12]
+margin = 10.0
+radius = 15.0
+
+[sub_resource type="SphereShape" id=8]
+margin = 10.0
+radius = 30.0
+
+[sub_resource type="SphereShape" id=11]
+radius = 2.0
+
+[node name="opponent_lmg_guy" type="KinematicBody"]
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 4 )
+
+[node name="hand" type="Spatial" parent="."]
+
+[node name="carpainter150_unsilenced" parent="hand" instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -2.121, -0.189 )
+
+[node name="human (13th copy)" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1.09278e-07, 0, -2.5, 0, 2, 0, 2.5, 0, -1.09278e-07, 0, 0.0096668, -0.0309141 )
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0 )
+shape = SubResource( 12 )
+
+[node name="head" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73785, 0 )
+
+[node name="sound_detection_area" type="Area" parent="."]
+process_priority = 6
+__meta__ = {
+"_editor_description_": "low process priority so the opponent do not rotate 360 degrees"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="sound_detection_area"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 8 )
+
+[node name="alert_timer" type="Timer" parent="."]
+process_priority = -1
+wait_time = 8.088
+autostart = true
+
+[node name="bullet_detector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 63
+
+[node name="bullet_detector" type="CollisionShape" parent="bullet_detector"]
+shape = SubResource( 11 )
+
+[node name="cooldown_timer" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="eyes_Spatial" type="Spatial" parent="."]
+
+[node name="RayCast" type="RayCast" parent="eyes_Spatial"]
+cast_to = Vector3( 0, 0, -80 )
+collision_mask = 63
+debug_shape_custom_color = Color( 1, 1, 1, 1 )
+debug_shape_thickness = 5
+
+[connection signal="fire" from="." to="hand/carpainter150_unsilenced" method="_on_opponent_lmg_guy_fire"]
+[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
+[connection signal="body_exited" from="Area" to="." method="_on_Area_body_exited"]
+[connection signal="area_entered" from="sound_detection_area" to="." method="_on_sound_detection_area_area_entered"]
+[connection signal="timeout" from="alert_timer" to="." method="_on_alert_timer_timeout"]
+[connection signal="area_entered" from="bullet_detector" to="." method="_on_bullet_detector_area_entered"]
+[connection signal="timeout" from="cooldown_timer" to="." method="_on_cooldown_timer_timeout"]

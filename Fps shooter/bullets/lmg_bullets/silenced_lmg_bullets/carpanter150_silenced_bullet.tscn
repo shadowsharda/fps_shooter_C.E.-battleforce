@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://bullets/lmg_bullets/silenced_lmg_bullets/carpanter150_silenced_bullet/carpanter150_silenced_bullet.gd" type="Script" id=1]
+[ext_resource path="res://tree1_mesh/Material_002.material" type="Material" id=2]
+
+[sub_resource type="SphereShape" id=1]
+margin = 0.001
+radius = 0.2
+
+[sub_resource type="CubeMesh" id=2]
+material = ExtResource( 2 )
+size = Vector3( 0.2, 0.2, 0.2 )
+
+[node name="carpanter150" type="Area" groups=["bullet"]]
+collision_layer = 4
+collision_mask = 59
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="CollisionShape"]
+wait_time = 20.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 20.0
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+
+[connection signal="body_entered" from="." to="." method="_on_carpanter150_unsilenced_bullet_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://enviroment_items/living_items/army_guy_blackmamba/army_guy_blackmamba_normals_recalculaed.glb" type="PackedScene" id=1]
+
+[node name="army_guy_blackmamba_normals_recalculaed" instance=ExtResource( 1 )]

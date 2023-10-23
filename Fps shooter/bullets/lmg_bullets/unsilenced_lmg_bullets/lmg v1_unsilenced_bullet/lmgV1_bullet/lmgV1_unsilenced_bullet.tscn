@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://enviroment_items/living_items/army_guy_blackmamba/black.material" type="Material" id=1]
+[ext_resource path="res://bullets/lmg_bullets/unsilenced_lmg_bullets/lmg v1_unsilenced_bullet/lmgV1_bullet/lmgV1_unsilenced_bullet.gd" type="Script" id=2]
+[ext_resource path="res://bullets/unsilenced_bullet_area/unsilenced_area.tscn" type="PackedScene" id=3]
+
+[sub_resource type="SphereShape" id=3]
+radius = 0.2
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 0.2, 0.2, 0.2 )
+
+[node name="bullet" type="Area" groups=["bullet"]]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 3 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )
+
+[node name="unsilenced_area" parent="." instance=ExtResource( 3 )]
+
+[connection signal="body_entered" from="." to="." method="_on_bullet_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_bullet_body_exited"]

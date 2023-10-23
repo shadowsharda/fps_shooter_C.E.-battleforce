@@ -1,0 +1,142 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://enemy/opponent_guard/opponent_guard.gd" type="Script" id=2]
+[ext_resource path="res://weapon tscn/projectile_wepon/smg/silenced/opponents/opponent_smgV1.tscn" type="PackedScene" id=3]
+[ext_resource path="res://enviroment_tscn/living_items/army_guy_blackmamba_normals_recalculaed/army_guy_blackmamba_normals_recalculaed.tscn" type="PackedScene" id=4]
+
+[sub_resource type="CapsuleShape" id=6]
+radius = 1.25
+height = 1.5
+
+[sub_resource type="CapsuleShape" id=3]
+margin = 3.336
+radius = 1.25
+height = 1.5
+
+[sub_resource type="CylinderShape" id=7]
+
+[sub_resource type="CylinderShape" id=8]
+height = 40.0
+radius = 10.0
+
+[sub_resource type="CylinderShape" id=9]
+height = 30.0
+
+[node name="opponent_guard" type="KinematicBody"]
+collision_layer = 16
+collision_mask = 45
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 6 )
+
+[node name="bullet_dectector" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="bullet_dectector"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[node name="ground_check" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -2.939 )
+collision_layer = 0
+collision_mask = 63
+
+[node name="CollisionShape" type="CollisionShape" parent="ground_check"]
+shape = SubResource( 7 )
+
+[node name="Timer" type="Timer" parent="."]
+process_mode = 0
+wait_time = 4.044
+
+[node name="alert_timer" type="Timer" parent="."]
+process_mode = 0
+wait_time = 4.04
+__meta__ = {
+"_editor_description_": "rotate by 180 degree"
+}
+
+[node name="RayCast" type="RayCast" parent="."]
+cast_to = Vector3( 0, 0, -30 )
+collision_mask = 63
+debug_shape_custom_color = Color( 0.184314, 0.843137, 0, 1 )
+debug_shape_thickness = 5
+
+[node name="Player_Area_detector" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 7.32408, -22.5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Player_Area_detector"]
+shape = SubResource( 8 )
+
+[node name="left_Area" type="Area" parent="."]
+transform = Transform( 0.819152, -0.573577, 2.50718e-08, 0, -4.37114e-08, -1, 0.573577, 0.819152, -3.58063e-08, 8.226, -1.2394, -12.6521 )
+collision_layer = 16
+
+[node name="CollisionShape" type="CollisionShape" parent="left_Area"]
+transform = Transform( 1, -2.98023e-08, 3.55271e-15, 2.98023e-08, 1, 3.55271e-15, 0, 0, 1, 0, 0, 0 )
+shape = SubResource( 9 )
+disabled = true
+
+[node name="right_Area2" type="Area" parent="."]
+transform = Transform( 0.819152, 0.573577, -2.50718e-08, 0, -4.37114e-08, -1, -0.573577, 0.819152, -3.58063e-08, -7.58083, 0, -6.43276 )
+collision_layer = 16
+
+[node name="CollisionShape" type="CollisionShape" parent="right_Area2"]
+transform = Transform( 1, 0, -3.55271e-15, 0, 1, 3.55271e-15, -3.55271e-15, 0, 1, 1.22364, -6.31496, 1.27626 )
+shape = SubResource( 9 )
+disabled = true
+
+[node name="hands" type="Spatial" parent="."]
+process_priority = -1
+transform = Transform( -0.0261771, 0, 0.999657, 0, 1, 0, -0.999657, 0, -0.0261771, 0, -0.172, -1.23378 )
+
+[node name="tump_gun" parent="hands" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.724954, 0.470859, 0.0189837 )
+
+[node name="check_wall_raycast" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.548601, 0 )
+cast_to = Vector3( 0, 0, -20 )
+collision_mask = 63
+debug_shape_custom_color = Color( 0.796078, 0.929412, 0.0352941, 1 )
+debug_shape_thickness = 5
+
+[node name="degree_rotate90" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+__meta__ = {
+"_editor_description_": "timer is called from process funtion this timer must be set to autosart
+use set_pasued(bool) to on off the timer"
+}
+
+[node name="degree_rotate360" type="Timer" parent="."]
+process_mode = 0
+wait_time = 8.08
+autostart = true
+__meta__ = {
+"_editor_description_": "rotates the opponent by 360 degrees"
+}
+
+[node name="army_guy_blackmamba_normals_recalculaed" parent="." instance=ExtResource( 4 )]
+transform = Transform( 2, 0, 0, 0, 1.5, 0, 0, 0, 2, 0, 0, 0 )
+
+[node name="eyes_Spatial" type="Spatial" parent="."]
+
+[node name="eyes_spatial_RayCast" type="RayCast" parent="eyes_Spatial"]
+cast_to = Vector3( 0, 0, -100 )
+collision_mask = 63
+debug_shape_custom_color = Color( 1, 1, 1, 1 )
+debug_shape_thickness = 5
+
+[connection signal="dont_shoot" from="." to="hands/tump_gun" method="_on_opponent_guard_dont_shoot"]
+[connection signal="fire" from="." to="hands/tump_gun" method="_on_opponent_guard_fire"]
+[connection signal="area_entered" from="bullet_dectector" to="." method="_on_bullet_dectector_area_entered"]
+[connection signal="body_entered" from="ground_check" to="." method="_on_ground_check_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="alert_timer" to="." method="_on_Timer2_timeout"]
+[connection signal="area_entered" from="Player_Area_detector" to="." method="_on_Player_Area_detector_area_entered"]
+[connection signal="area_entered" from="left_Area" to="." method="_on_left_Area_area_entered"]
+[connection signal="area_exited" from="left_Area" to="." method="_on_left_Area_area_exited"]
+[connection signal="area_entered" from="right_Area2" to="." method="_on_right_Area2_area_entered"]
+[connection signal="area_exited" from="right_Area2" to="." method="_on_right_Area2_area_exited"]
+[connection signal="timeout" from="degree_rotate90" to="." method="_on_degree_rotate90_timeout"]
+[connection signal="timeout" from="degree_rotate360" to="." method="_on_degree_rotate360_timeout"]

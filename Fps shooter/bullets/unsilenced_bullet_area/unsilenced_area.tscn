@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="SphereShape" id=4]
+
+[node name="unsilenced_area" type="Area" groups=["unsilenced_bullet_area"]]
+collision_layer = 4
+collision_mask = 127
+__meta__ = {
+"_editor_description_": "area_will_be_detected_by_eniemies_if_weapon_is_unsilenced
+"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 4 )

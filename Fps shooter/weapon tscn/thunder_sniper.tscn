@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://weapon/thunder_sniper/thunder_sniper.glb" type="PackedScene" id=1]
+
+[node name="thunder_sniper" instance=ExtResource( 1 )]

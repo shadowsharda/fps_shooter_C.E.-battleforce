@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://weapon/lmg/unsilenced/full_weapon_carpanter1500_unsilenced/full_model_carpanter1500.glb" type="PackedScene" id=1]
+
+[node name="full_model_carpanter1500" instance=ExtResource( 1 )]

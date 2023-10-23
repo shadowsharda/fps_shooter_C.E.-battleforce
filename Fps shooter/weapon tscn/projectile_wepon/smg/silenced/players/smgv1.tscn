@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://weapon tscn/tump_gun.tscn" type="PackedScene" id=1]
+[ext_resource path="res://weapon tscn/projectile_wepon/smg/silenced/players/smgv1.gd" type="Script" id=2]
+
+[node name="smgv1" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="firerate_timer" type="Timer" parent="." index="3"]
+wait_time = 0.1
+
+[node name="Position3D" type="Spatial" parent="." index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1966, 0, 0 )
+
+[connection signal="timeout" from="firerate_timer" to="." method="_on_firerate_timer_timeout"]
