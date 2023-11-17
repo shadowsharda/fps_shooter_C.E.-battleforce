@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=2]
 
+[ext_resource path="res://weapon tscn/projectile_wepon/smg/unsilenced/opponent/wood_gun_opponent.tscn" type="PackedScene" id=1]
 [ext_resource path="res://enemy/opponent_guard/opponent_guard.gd" type="Script" id=2]
-[ext_resource path="res://weapon tscn/projectile_wepon/smg/silenced/opponents/opponent_smgV1.tscn" type="PackedScene" id=3]
 [ext_resource path="res://enviroment_tscn/living_items/army_guy_blackmamba_normals_recalculaed/army_guy_blackmamba_normals_recalculaed.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleShape" id=6]
 radius = 1.25
-height = 1.5
+height = 1.46152
 
 [sub_resource type="CapsuleShape" id=3]
 margin = 3.336
@@ -32,9 +32,10 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0
 shape = SubResource( 6 )
 
 [node name="bullet_dectector" type="Area" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="bullet_dectector"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.349307, 0, -0.74019 )
 shape = SubResource( 3 )
 
 [node name="ground_check" type="Area" parent="."]
@@ -90,8 +91,8 @@ disabled = true
 process_priority = -1
 transform = Transform( -0.0261771, 0, 0.999657, 0, 1, 0, -0.999657, 0, -0.0261771, 0, -0.172, -1.23378 )
 
-[node name="tump_gun" parent="hands" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.724954, 0.470859, 0.0189837 )
+[node name="wood_gun" parent="hands" instance=ExtResource( 1 )]
+transform = Transform( -2, 0, -3.01749e-07, 0, 1.5, 0, 3.01749e-07, 0, -2, 0.755892, 0.155429, 0.739821 )
 
 [node name="check_wall_raycast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.548601, 0 )
@@ -127,8 +128,7 @@ collision_mask = 63
 debug_shape_custom_color = Color( 1, 1, 1, 1 )
 debug_shape_thickness = 5
 
-[connection signal="dont_shoot" from="." to="hands/tump_gun" method="_on_opponent_guard_dont_shoot"]
-[connection signal="fire" from="." to="hands/tump_gun" method="_on_opponent_guard_fire"]
+[connection signal="fire" from="." to="hands/wood_gun" method="_on_opponent_guard_fire"]
 [connection signal="area_entered" from="bullet_dectector" to="." method="_on_bullet_dectector_area_entered"]
 [connection signal="body_entered" from="ground_check" to="." method="_on_ground_check_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

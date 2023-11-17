@@ -35,6 +35,7 @@ onready var degree_rotate_ninty_timer:Timer=$rotate_Timer_90
 onready var eyes_spatial:Spatial=$eyes_spatial
 onready var eyes_spatial_raycast:RayCast=$eyes_spatial/eyes_spatial_RayCast2
 onready var opponent_commando:KinematicBody=$opponent_commando
+onready var opponent_comando_player_detector:CollisionShape=$opponent_commando/commando_aiming_area/CollisionShape
 onready var left_and_right_decider_raycast_left_raycast=$left_and_right_decider_raycast/left_raycast
 onready var left_and_right_decider_raycast_right_raycast=$left_and_right_decider_raycast/right_raycast
 #boiler_plate_function_not called_anywhere in the game
@@ -71,7 +72,7 @@ func floor_defining_function(move_intake:float=10.0)->float:
 		move_intake=10.0
 	return move_intake
 func opponent_detecting_function():
-	print_debug("PLAYER_DETECTING_FUNCTION CALLED")
+	#print_debug("PLAYER_DETECTING_FUNCTION CALLED")
 	var collider
 	var check:bool
 	check=eyes_spatial_raycast.is_colliding()
@@ -89,7 +90,7 @@ func opponent_detecting_function():
 			player_detected=true
 			
 		else:
-			state=idle
+			state=alert
 
 	if collider==null:
 		pass
@@ -98,6 +99,7 @@ func _ready():
 	health=max_health
 	set_physics_process(true)
 	floor_check_raycast.enabled=true
+	opponent_comando_player_detector.set_deferred("disabled",true)
 # warning-ignore:return_value_discarded
 	degree_rotate_ninty_timer.connect("timeout",self,"degree_rotate_ninty_timer_timeout")
 	left_and_right_decider_raycast_left_raycast.enabled=true
@@ -234,6 +236,14 @@ func degree_rotate_ninty_timer_timeout()->void:
 	direction=0
 
 
+func _on_commando_aiming_area_body_entered(body: Node) -> void:
+	if body.is_in_group("Player"):
+		print_debug("player_standing_detected")
+		walking=false
+		state=alert
+		target=body
+		set_physics_process(true)
+
 func _on_player_movemnent_detector_area_entered(area:Area)->void:
 	if area.is_in_group("unsilenced_bullet_area"):
 		walking=true
@@ -241,12 +251,18 @@ func _on_player_movemnent_detector_area_entered(area:Area)->void:
 			walking=false
 		set_physics_process(true)
 	if area.is_in_group("player_standing"):
-		print_debug("player_standing_detected")
-		walking=false
-		state=alert
-		target=area
-func _on_field_of_view_Area_area_entered(_area: Area) -> void:
-	pass # Replace with function body.
+		walking=true
+		if state==shooting:
+			walking=false
+		set_physics_process(true)
+		
+		#print_debug("player_standing_detected")
+		#walking=false
+		#state=alert
+		#target=area
+func _on_field_of_view_Area_area_entered(area: Area) -> void:
+	if area.is_in_group("player_standing")|| area.is_in_group("player_crouching"):
+		opponent_comando_player_detector.set_deferred("disabled",false)
 
 
 func _on_player_movemnent_detector_area_exited(area: Area) -> void:
@@ -259,3 +275,11 @@ func _on_player_movemnent_detector_area_exited(area: Area) -> void:
 func _on_Area_area_entered(area: Area) -> void:
 	if area.is_in_group("bullet"):
 		take_damage(area.current_damage)
+
+
+
+	pass # Replace with function body.
+
+
+
+

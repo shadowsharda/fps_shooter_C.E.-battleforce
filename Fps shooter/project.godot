@@ -33,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Fps Shooter_C.E.battle_force"
-run/main_scene="res://world2.tscn"
+run/main_scene="res://world_tscn/world_level1/world_level1.tscn"
 config/use_hidden_project_data_directory=false
 config/icon="res://icon.png"
 
@@ -49,7 +49,6 @@ gdscript/warnings/unsafe_call_argument=true
 
 window/size/height=576
 window/size/always_on_top=true
-window/vsync/use_vsync=false
 
 [input]
 
@@ -125,14 +124,18 @@ stand={
 
 [physics]
 
-common/physics_fps=80
+3d/smooth_trimesh_collision=true
+common/physics_fps=64
 common/enable_pause_aware_picking=true
 3d/physics_engine="Bullet"
 3d/active_soft_world=false
 
 [rendering]
 
+quality/driver/fallback_to_gles2=true
 2d/options/use_nvidia_rect_flicker_workaround=true
 quality/intended_usage/framebuffer_allocation=3
 quality/filters/anisotropic_filter_level=1
+gles3/shaders/log_active_async_compiles_count=true
+quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"

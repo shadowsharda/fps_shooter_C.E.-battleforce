@@ -1,28 +1,23 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://enemy/opponent_commando/opponent_commando.gd" type="Script" id=1]
+[ext_resource path="res://weapon tscn/projectile_wepon/ar/unsilenced/opponent/legends_weapon_50_unsilenced/legends_weapon_50_unsilenced.tscn" type="PackedScene" id=2]
+[ext_resource path="res://enviroment_tscn/living_items/army_guy_blackmamba_normals_recalculaed/army_guy_blackmamba_normals_recalculaed.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape" id=1]
+height = 5.0
 
-[sub_resource type="SpatialMaterial" id=3]
-flags_unshaded = true
-albedo_color = Color( 0.313726, 0.0627451, 0.0627451, 1 )
-
-[sub_resource type="CapsuleMesh" id=2]
-material = SubResource( 3 )
+[sub_resource type="CylinderShape" id=7]
 
 [sub_resource type="SphereShape" id=12]
-radius = 10.0
-
-[sub_resource type="CapsuleMesh" id=13]
-radius = 5.054
-mid_height = 1.414
+radius = 20.0
 
 [sub_resource type="CylinderShape" id=10]
 height = 1.0
-radius = 4.0
+radius = 15.0
 
-[sub_resource type="CylinderShape" id=7]
+[sub_resource type="SphereShape" id=14]
+radius = 20.0
 
 [node name="Area" type="Area"]
 script = ExtResource( 1 )
@@ -45,7 +40,7 @@ debug_shape_custom_color = Color( 0.898039, 0, 1, 1 )
 debug_shape_thickness = 5
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.00396132, 0 )
 shape = SubResource( 1 )
 
 [node name="eyes_spatial" type="Spatial" parent="."]
@@ -54,47 +49,6 @@ shape = SubResource( 1 )
 cast_to = Vector3( 0, 0.1, -100 )
 collision_mask = 63
 debug_shape_custom_color = Color( 0.858824, 0.811765, 0.105882, 1 )
-
-[node name="opponent_commando" type="KinematicBody" parent="."]
-
-[node name="CollisionShape" type="CollisionShape" parent="opponent_commando"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
-shape = SubResource( 1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="opponent_commando"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
-mesh = SubResource( 2 )
-
-[node name="player_movemnent detector" type="Area" parent="opponent_commando"]
-collision_mask = 31
-monitorable = false
-
-[node name="CollisionShape" type="CollisionShape" parent="opponent_commando/player_movemnent detector"]
-shape = SubResource( 12 )
-
-[node name="hands" type="Spatial" parent="opponent_commando"]
-process_priority = -1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.7133 )
-
-[node name="MeshInstance" type="MeshInstance" parent="opponent_commando/hands"]
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0.0444672, 0, 0 )
-mesh = SubResource( 13 )
-
-[node name="field_of_view_Area" type="Area" parent="opponent_commando"]
-collision_layer = 0
-collision_mask = 63
-monitorable = false
-
-[node name="CollisionShape" type="CollisionShape" parent="opponent_commando/field_of_view_Area"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.77813 )
-shape = SubResource( 10 )
-
-[node name="RayCast" type="RayCast" parent="."]
-enabled = true
-cast_to = Vector3( 0, -1.5, 0 )
-collision_mask = 31
-
-[node name="rotate_Timer_90" type="Timer" parent="."]
 
 [node name="wall_check_area" type="Area" parent="."]
 collision_mask = 31
@@ -109,9 +63,59 @@ collision_mask = 31
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.173639, -3.05965 )
 shape = SubResource( 7 )
 
+[node name="opponent_commando" type="KinematicBody" parent="."]
+
+[node name="army_guy_blackmamba_normals_recalculaed" parent="opponent_commando" instance=ExtResource( 3 )]
+transform = Transform( 2, 0, 0, 0, 1.5, 0, 0, 0, 2, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="opponent_commando"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.707597 )
+shape = SubResource( 1 )
+
+[node name="player_movemnent detector" type="Area" parent="opponent_commando"]
+collision_mask = 31
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="opponent_commando/player_movemnent detector"]
+shape = SubResource( 12 )
+
+[node name="hands" type="Spatial" parent="opponent_commando"]
+process_priority = -1
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.736845, -0.0694419, -1.93091 )
+
+[node name="legends_weapon_60" parent="opponent_commando/hands" instance=ExtResource( 2 )]
+transform = Transform( -8.74228e-08, 0, -2, 0, 1.5, 0, 2, 0, -8.74228e-08, 0, 0, 0 )
+
+[node name="field_of_view_Area" type="Area" parent="opponent_commando"]
+collision_layer = 0
+collision_mask = 63
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="opponent_commando/field_of_view_Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14.8658 )
+shape = SubResource( 10 )
+
+[node name="commando_aiming_area" type="Area" parent="opponent_commando"]
+collision_layer = 0
+collision_mask = 63
+
+[node name="CollisionShape" type="CollisionShape" parent="opponent_commando/commando_aiming_area"]
+shape = SubResource( 14 )
+
+[node name="RayCast" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0518837 )
+enabled = true
+cast_to = Vector3( 0, -2.415, 0 )
+collision_mask = 31
+debug_shape_custom_color = Color( 0.45098, 0.0862745, 0.615686, 1 )
+
+[node name="rotate_Timer_90" type="Timer" parent="."]
+
 [connection signal="area_entered" from="." to="." method="_on_Area_area_entered"]
+[connection signal="shooting" from="." to="opponent_commando/hands/legends_weapon_60" method="_on_opponent_commando_shooting"]
+[connection signal="body_entered" from="wall_check_area" to="." method="_on_wall_check_area_body_entered"]
 [connection signal="area_entered" from="opponent_commando/player_movemnent detector" to="." method="_on_player_movemnent_detector_area_entered"]
 [connection signal="area_exited" from="opponent_commando/player_movemnent detector" to="." method="_on_player_movemnent_detector_area_exited"]
 [connection signal="body_entered" from="opponent_commando/player_movemnent detector" to="." method="_on_player_movemnent_detector_body_entered"]
 [connection signal="area_entered" from="opponent_commando/field_of_view_Area" to="." method="_on_field_of_view_Area_area_entered"]
-[connection signal="body_entered" from="wall_check_area" to="." method="_on_wall_check_area_body_entered"]
+[connection signal="body_entered" from="opponent_commando/commando_aiming_area" to="." method="_on_commando_aiming_area_body_entered"]

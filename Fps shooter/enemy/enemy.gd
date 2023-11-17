@@ -1,7 +1,7 @@
 extends KinematicBody
 var target
 #variable will get current world node
-var space_state
+
 var health:int
 const max_health:int=100
 
@@ -9,17 +9,21 @@ export var speed:int=3
 const look_sen:float=1.0
 var movevel:Vector3=Vector3(0,0,0)
 onready var position3d_barrel:Position3D=$MeshInstance2/barrel
+onready var aiming_activator_area:CollisionShape=$enemy_aiming_area/CollisionShape
 const bullet= preload ("res://bullets/lmg_bullets/unsilenced_lmg_bullets/lmg v1_unsilenced_bullet/lmgV1_bullet/lmgV1_unsilenced_bullet.tscn")
 func _ready():
 	health=max_health
-	space_state=get_world().direct_space_state
+	#aiming is set to off at intitial
+	aiming_activator_area.set_deferred("disabled",true)
+
 
 func _on_Area_body_entered(body):
 	if body.is_in_group("Player"):
-		target=body
-		print(body.name +"entered")
-		$fire_Timer.start()
+		#target=body
+		#print(body.name +"entered")
+		#$fire_Timer.start()
 		#set_color_red()
+		aiming_activator_area.set_deferred("disabled",false)
 func take_damage(amount:int)->void:
 	health = health-amount
 	#emit_signal("health_changed",health)
@@ -33,9 +37,10 @@ func explode()->void:
 
 func _on_Area_body_exited(body):
 	if body.is_in_group("Player"):
-		print(body.name+"exited")
-		target=null
-		$fire_Timer.stop()
+		aiming_activator_area.set_deferred("disabled",true)
+		#print(body.name+"exited")
+		#target=null
+		#$fire_Timer.stop()
 		#set_color_green()
 func set_color_red()->void:
 	$body.get_surface_material(0).set_albedo(Color(1,0,0))
@@ -78,3 +83,24 @@ func _on_fire_Timer_timeout():
 	bull.rotation_degrees=position3d_barrel.global_transform.basis.get_euler()
 	position3d_barrel.add_child(bull)
 	
+
+
+func _on_enemy_aiming_area_body_entered(body: Node) -> void:
+	if body.is_in_group("Player"):
+		target=body
+		print(body.name +"entered")
+		$fire_Timer.start()
+		#set_color_red()
+
+
+func _on_enemy_aiming_area_body_exited(body: Node) -> void:
+	if body.is_in_group("Player"):
+		print(body.name+"exited")
+		target=null
+		$fire_Timer.stop()
+		#set_color_green()
+
+
+func _on_bullet_hit_area_area_entered(area: Area) -> void:
+	if area.is_in_group("bullet"):
+		aiming_activator_area.set_deferred("disabled",false)

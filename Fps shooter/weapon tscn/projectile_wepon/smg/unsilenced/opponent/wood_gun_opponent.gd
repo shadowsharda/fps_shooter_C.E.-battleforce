@@ -1,17 +1,18 @@
+
 extends Spatial
 
 const carpanter_unsilenced_bullet=preload("res://bullets/lmg_bullets/unsilenced_lmg_bullets/carpanter150_unsilenced_bullet/carpanter150_unsilenced_bullet.tscn")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-onready var firerate_timer:Timer=$firerate_Timer
-onready var Postion_barrel:Position3D=$full_model_carpanter1500/Armature/Skeleton/carpanter150_body/Position3D
-
-
+onready var firerate_timer:Timer=$Fire_rate_interval_timer
+onready var Postion_barrel:Position3D=$wood_gun_texture_only_fully_rigged_unsilenced/Armature/Skeleton/weapon_wood_gun/Position3D
+onready var wood_gun_animation_player:AnimationPlayer=$wood_gun_texture_only_fully_rigged_unsilenced/AnimationPlayer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	firerate_timer.set_paused(true)
-	$full_model_carpanter1500/AnimationPlayer.play("DEFAULT")
+	wood_gun_animation_player.play("DEfault")
+	firerate_timer.connect("timeout",self,"_on_firerate_Timer_timeout")
  # Replace with function body.
 
 
@@ -25,6 +26,7 @@ func _on_opponent_lmg_guy_fire():
 		print("shooting")
 
 func _on_firerate_Timer_timeout():
+	print_debug("timer")
 	var b=carpanter_unsilenced_bullet.instance()
 	b.rotation_degrees=Postion_barrel.global_transform.basis.get_euler()
 	#current_ammo=current_ammo-1
@@ -34,3 +36,9 @@ func _on_firerate_Timer_timeout():
 
 func _on_opponent_lmg_guy_dont_shoot():
 	firerate_timer.set_paused(true) 
+
+
+func _on_opponent_guard_fire():
+
+	firerate_timer.set_paused(false)
+	print_debug("shooting")

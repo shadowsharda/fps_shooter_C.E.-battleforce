@@ -16,9 +16,6 @@ __meta__ = {
 "_editor_description_": "wait time cantrols fire rate. autostart must be true to call this timer signal function from process function."
 }
 
-[node name="Position3D" type="Position3D" parent="."]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.00878, 2.52544, -0.446395 )
-
 [node name="full_model_carpanter1500" parent="." instance=ExtResource( 1 )]
 transform = Transform( 2.5, 0, 0, 0, 2, 0, 0, 0, 2.5, 0, 0, 0 )
 

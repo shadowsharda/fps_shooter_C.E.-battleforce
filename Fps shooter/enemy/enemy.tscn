@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://enemy/enemy.gd" type="Script" id=1]
 [ext_resource path="res://weapon/tump_gun/metal.material" type="Material" id=2]
@@ -16,6 +16,9 @@ albedo_color = Color( 0.0509804, 0.588235, 0.0509804, 1 )
 [sub_resource type="CapsuleShape" id=3]
 radius = 1.25
 height = 1.5
+
+[sub_resource type="SphereShape" id=5]
+radius = 20.0
 
 [node name="enemy" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -38,14 +41,33 @@ shape = SubResource( 3 )
 
 [node name="Area" type="Area" parent="."]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -1.4476 )
+collision_layer = 0
 
 [node name="CollisionPolygon" type="CollisionPolygon" parent="Area"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
-polygon = PoolVector2Array( 0, 0, 15, 6, 15, -6 )
+polygon = PoolVector2Array( 0, 0, 20, 20, 20, -20 )
 
 [node name="fire_Timer" type="Timer" parent="."]
 wait_time = 0.2
 
+[node name="enemy_aiming_area" type="Area" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="enemy_aiming_area"]
+shape = SubResource( 5 )
+
+[node name="bullet_hit_area" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 63
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="bullet_hit_area"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 3 )
+
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_exited" from="Area" to="." method="_on_Area_body_exited"]
 [connection signal="timeout" from="fire_Timer" to="." method="_on_fire_Timer_timeout"]
+[connection signal="body_entered" from="enemy_aiming_area" to="." method="_on_enemy_aiming_area_body_entered"]
+[connection signal="body_exited" from="enemy_aiming_area" to="." method="_on_enemy_aiming_area_body_exited"]
+[connection signal="area_entered" from="bullet_hit_area" to="." method="_on_bullet_hit_area_area_entered"]
