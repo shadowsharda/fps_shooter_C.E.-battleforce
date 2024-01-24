@@ -41,13 +41,13 @@ stretch = true
 [node name="Viewport" type="Viewport" parent="ViewportContainer" index="0"]
 size = Vector2( 1024, 576 )
 size_override_stretch = true
+own_world = true
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 3
 
 [node name="Gun_Camera" type="Camera" parent="ViewportContainer/Viewport" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09287, -0.30265 )
-visible = false
 cull_mask = 2
 near = 0.01
 script = ExtResource( 5 )

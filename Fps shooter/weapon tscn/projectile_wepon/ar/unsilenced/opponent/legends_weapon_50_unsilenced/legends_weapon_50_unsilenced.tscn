@@ -12,3 +12,8 @@ script = ExtResource( 2 )
 [node name="fire_rate_interval_Timer" type="Timer" parent="."]
 wait_time = 0.16
 autostart = true
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+
+[node name="barrel_Position3D" type="Position3D" parent="MeshInstance"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.701995, 0.767946, 0.431392 )

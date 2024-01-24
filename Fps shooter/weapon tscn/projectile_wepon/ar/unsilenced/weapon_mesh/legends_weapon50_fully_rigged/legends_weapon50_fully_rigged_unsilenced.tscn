@@ -4,8 +4,5 @@
 
 [node name="legends_weapon50_fully_rigged_unsilenced" instance=ExtResource( 1 )]
 
-[node name="Position3D" type="Position3D" parent="Armature/Skeleton/gun" index="0"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.701995, 0.767946, 0.431392 )
-
 [node name="AnimationPlayer" parent="." index="1"]
 autoplay = "default_pose"
